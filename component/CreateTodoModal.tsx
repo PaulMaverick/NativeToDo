@@ -49,9 +49,9 @@ export default function CreateTodoModal({isVisible, close}: Props) {
                             <Text style={styles.text}>Title:</Text>
                             <TextInput 
                                 placeholder="Title" 
-                                placeholderTextColor="white" 
-                                value="title"
-                                onChange={(e) => console.log(e)} />
+                                placeholderTextColor="white"
+                                value={todo.title}
+                                onChange={(e) =>  updateTodo("title", e.nativeEvent.text)}/>
                         </View>
                         <View>
                             <Text style={styles.text}>Description:</Text>
@@ -59,6 +59,8 @@ export default function CreateTodoModal({isVisible, close}: Props) {
                                 placeholder="description" 
                                 placeholderTextColor="white"
                                 multiline
+                                value={todo.description}
+                                onChange={(e) =>  updateTodo("description", e.nativeEvent.text)}
                             />
                         </View>
                     </View>
