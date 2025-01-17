@@ -1,18 +1,16 @@
 import { Modal, View, Text, StyleSheet, TextInput, Pressable } from "react-native";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FontAwesome } from '@expo/vector-icons';
+import { Todo } from "@/types/types";
 
 type Props = {
     isVisible: boolean;
-    close: () => void
+    close: () => void;
+    setData: Dispatch<SetStateAction<Todo[]>>;
+    data: Todo[]
 }
 
-type Todo = {
-    title: string;
-    description: string;
-}
-
-export default function CreateTodoModal({isVisible, close}: Props) {
+export default function CreateTodoModal({isVisible, close, data, setData}: Props) {
     const [todo, setTodo] = useState<Todo>({
         title: '',
         description: '',
@@ -26,13 +24,17 @@ export default function CreateTodoModal({isVisible, close}: Props) {
     }
 
     const createTodo = () => {
-        console.log(todo)
+        const newData = [...data];
+
+        newData.push(todo);
+
+        setData(newData);
     }
 
     return (
         <Modal 
             visible={isVisible}
-            animationType="slide"
+            animationType="fade"
             onRequestClose={close}
             transparent
         >
