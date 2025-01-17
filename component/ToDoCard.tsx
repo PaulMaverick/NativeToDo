@@ -1,6 +1,5 @@
-import { Text, View } from 'react-native';
-import Animated from "react-native-reanimated";
-import { GestureDetector, Gesture } from "react-native-gesture-handler";
+import { Text, View, TouchableWithoutFeedback, StyleSheet, LayoutChangeEvent } from 'react-native';
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { useState } from "react";
 import { Todo } from "@/types/types";
 
@@ -11,28 +10,55 @@ type Props = {
 export default function TodoCardView({todo}: Props) {
     const {title, description} = todo;
     const [expanded, setExpanded] = useState<boolean>(false);
-    const tap = Gesture.Tap()
-        .numberOfTaps(1)
-        .onStart(() => {    
-            setExpanded(!expanded);
-        })
+    const [height, setHeight] = useState<number>(0)
+
+    const onItemPress = () => {
+        setExpanded(!expanded)
+    }
+
+    const onLayout = (event: LayoutChangeEvent) => {
+        const layoutHeight = event.nativeEvent.layout.height;
+
+        if(layoutHeight > 0 && layoutHeight !== height) {
+            setHeight(layoutHeight)
+        }
+    }
+
+    const descStyle = useAnimatedStyle(() => {
+        const animatedHeight = expanded ? withTiming(height) : withTiming(0);
+        return {
+            height: animatedHeight,
+            backgroundColor: 'red',
+        }
+    })
+
 
     return (
-        <GestureDetector gesture={tap}>
-            <Animated.View>
+        <View style={styles.container}>
+            <TouchableWithoutFeedback onPress={onItemPress}>
                 <View>
-                    <Text>{title}</Text>
+                    <Text style={styles.cardHeader}>{title}</Text>
                 </View>
-                {
-                    expanded ? (
-                        <Animated.View>
-                            <Animated.Text>{description}</Animated.Text>
-                        </Animated.View>
-                    ) : (
-                        <></>
-                    )
-                }
+            </TouchableWithoutFeedback>
+
+            <Animated.View style={[descStyle, {overflow: 'hidden'}]}>
+                <View onLayout={onLayout} style={{position: 'absolute'}}>
+                    <Text style={styles.cardDesc}>{description}</Text>
+                </View>
             </Animated.View>
-        </GestureDetector>
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        width: '90%'
+    },
+    cardHeader: {
+        color: 'white'
+    },
+    cardDesc: {
+        color: 'white'
+    },
+    
+})

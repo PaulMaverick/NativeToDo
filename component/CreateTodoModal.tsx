@@ -11,10 +11,12 @@ type Props = {
 }
 
 export default function CreateTodoModal({isVisible, close, data, setData}: Props) {
-    const [todo, setTodo] = useState<Todo>({
+    const todoItem = {
         title: '',
         description: '',
-    })
+    }
+
+    const [todo, setTodo] = useState<Todo>(todoItem)
 
     const updateTodo = (name: string, value: string) => {
         setTodo(prevTodo => ({
@@ -29,6 +31,8 @@ export default function CreateTodoModal({isVisible, close, data, setData}: Props
         newData.push(todo);
 
         setData(newData);
+        setTodo(todoItem)
+        close()
     }
 
     return (

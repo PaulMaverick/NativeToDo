@@ -11,6 +11,7 @@ import ToolBarView from "@/component/ToolBar";
 //themes - defaults
 import { gblDefaults } from "@/constants/globas";
 import { Todo } from "@/types/types";
+import TodoListView from "@/component/TodoLIst";
 const currentTheme = gblDefaults.darkTheme;
 
 
@@ -29,26 +30,29 @@ export default function Index() {
 
 
   return (
-    <View
-      style={
-        [
-          styles.container, 
-          {
-            backgroundColor: currentTheme.bgColor,
-            height: height,
-            width: width,
-          }
-        ]}
-      >
-      <HeaderView currentTheme={currentTheme} openModal={openModal}/>
-      <View>
-        <View>
-          <ToolBarView />
-          <CreateTodoModal isVisible={isVisible} close={closeModal} setData={setData} data={data}/>
-        </View>
+        <View
+			style={
+			[
+				styles.container, 
+				{
+				backgroundColor: currentTheme.bgColor,
+				height: height,
+				width: width,
+				}
+			]}
+			>
+			<HeaderView currentTheme={currentTheme} openModal={openModal}/>
+			<View>
+				<View>
+					<ToolBarView />
+					<CreateTodoModal isVisible={isVisible} close={closeModal} setData={setData} data={data}/>
+				</View>
+				<View>
+					<TodoListView data={data}/>
+				</View>
+			</View>
+        <FooterView currentTheme={currentTheme}/>
       </View>
-      <FooterView currentTheme={currentTheme}/>
-    </View>
   );
 }
 
