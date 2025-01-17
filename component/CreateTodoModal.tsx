@@ -18,14 +18,17 @@ export default function CreateTodoModal({isVisible, close}: Props) {
         description: '',
     })
 
-    const updateTodo = () => {
-
+    const updateTodo = (name: string, value: string) => {
+        setTodo(prevTodo => ({
+            ...prevTodo,
+            [name]: value
+        }));
     }
 
     const createTodo = () => {
-
+        console.log(todo)
     }
-    
+
     return (
         <Modal 
             visible={isVisible}
@@ -44,7 +47,11 @@ export default function CreateTodoModal({isVisible, close}: Props) {
                     <View>
                         <View>
                             <Text style={styles.text}>Title:</Text>
-                            <TextInput placeholder="Title" placeholderTextColor="white"/>
+                            <TextInput 
+                                placeholder="Title" 
+                                placeholderTextColor="white" 
+                                value="title"
+                                onChange={(e) => console.log(e)} />
                         </View>
                         <View>
                             <Text style={styles.text}>Description:</Text>
@@ -55,9 +62,9 @@ export default function CreateTodoModal({isVisible, close}: Props) {
                             />
                         </View>
                     </View>
-                    <View>
+                    <View style={styles.btnContainer}>
                         <Pressable onPress={() => createTodo()}>
-                            <Text>Create Todo</Text>
+                            <Text style={styles.text}>Create Todo</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -86,9 +93,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomColor: '#4f4d4d',
         borderBottomWidth: 2,
-        padding: 10
+        padding: 10,
     },
     text: {
-        color: 'white'
+        color: 'white',
+    },
+    btnContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
