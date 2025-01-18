@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
+import { View, Text, StyleSheet, TextInput, Pressable, } from "react-native";
 import { Dispatch, SetStateAction, useState } from "react";
-import { FontAwesome } from '@expo/vector-icons';
 import { TodoGroup, Todo } from "@/types/types";
 import { setID } from "@/utils/utils";
 import TodoListView from "@/component/todos/TodoList";
@@ -56,26 +55,26 @@ export default function CreateTodoScreen() {
 
     return (
         <View style={styles.container}>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldText}>Title:</Text>
-                    <TextInput 
-                        placeholder="Title" 
-                        style={styles.inputText}
-                        placeholderTextColor="white"
-                        value={todoGroup.title}
-                        onChange={(e) =>  updateGroupTodo("title", e.nativeEvent.text)}/>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.fieldText}>Description:</Text>
-                    <TextInput 
-                        placeholder="description" 
-                        style={styles.inputText}
-                        placeholderTextColor="white"
-                        multiline
-                        value={todoGroup.description}
-                        onChange={(e) =>  updateGroupTodo("description", e.nativeEvent.text)}
-                    />
-                </View>
+            <View style={styles.fieldContainer}>
+                <Text style={styles.fieldText}>Title:</Text>
+                <TextInput 
+                    placeholder="Title" 
+                    style={styles.inputText}
+                    placeholderTextColor="white"
+                    value={todoGroup.title}
+                    onChange={(e) =>  updateGroupTodo("title", e.nativeEvent.text)}/>
+            </View>
+            <View style={styles.fieldContainer}>
+                <Text style={styles.fieldText}>Description:</Text>
+                <TextInput 
+                    placeholder="description" 
+                    style={styles.inputText}
+                    placeholderTextColor="white"
+                    multiline
+                    value={todoGroup.description}
+                    onChange={(e) =>  updateGroupTodo("description", e.nativeEvent.text)}
+                />
+            </View>
 
                 <TodoListView data={todos} createTodo={createTodo} updateTodo={updateTodo}/>
 

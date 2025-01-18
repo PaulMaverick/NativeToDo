@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, Pressable, LayoutChangeEvent } from 'react-native';
+import { View, StyleSheet, TextInput, Text, Pressable, LayoutChangeEvent} from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import  { CheckBox } from 'rn-inkpad'
 import { Todo } from "@/types/types";
