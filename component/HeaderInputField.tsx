@@ -1,12 +1,10 @@
 import { setPadding } from "@/utils/utils";
 import { FontAwesome } from "@expo/vector-icons";
 import { View, Pressable, TextInput, StyleSheet } from "react-native";
+import { Link } from "expo-router";
 
-type Props = {
-    openModal: () => void;
-}
 
-export default function HeaderInputText({openModal}: Props) {
+export default function HeaderInputText() {
     return (
         <View style={[styles.inputContainer, setPadding(0, 10)]}>
             <View style={{ flex: 1}}>
@@ -16,9 +14,9 @@ export default function HeaderInputText({openModal}: Props) {
                     placeholderTextColor="white"
                 />
             </View>
-            <Pressable style={styles.iconContainer} onPress={openModal}>
+            <Link href='/createTodo' style={styles.iconContainer} >
                 <FontAwesome name="plus" color="white" size={15}/>
-            </Pressable>
+            </Link>
         </View>
     )
 }

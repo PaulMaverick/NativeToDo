@@ -16,18 +16,9 @@ const currentTheme = gblDefaults.darkTheme;
 
 
 export default function Index() {
-  const [isVisible, setIsVisible] = useState<boolean>(false)
+
   const [data, setData] = useState<Todo[]>([])
   const {height, width} = useWindowDimensions();
-
-  const openModal = () => {
-    setIsVisible(true);
-  }
-
-  const closeModal = () => {
-    setIsVisible(false)
-  }
-
 
   return (
         <View
@@ -41,11 +32,10 @@ export default function Index() {
 				}
 			]}
 			>
-			<HeaderView currentTheme={currentTheme} openModal={openModal}/>
+			<HeaderView currentTheme={currentTheme}/>
 			<View>
 				<View>
 					<ToolBarView />
-					<CreateTodoModal isVisible={isVisible} close={closeModal} setData={setData} data={data}/>
 				</View>
 				<View>
 					<TodoListView data={data}/>

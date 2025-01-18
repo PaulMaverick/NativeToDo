@@ -7,13 +7,13 @@ type Props = {
     currentTheme: {
         txtColor: string
     };
-    openModal: () => void;
+
 }
 
-export default function HeaderView({ currentTheme, openModal }: Props) {
+export default function HeaderView({ currentTheme}: Props) {
     return (
         <View style={[styles.headerContainer, setPadding(10, 15)]}>
-           <HeaderInputText openModal={openModal}/>
+           <HeaderInputText />
         </View>
     )
 }
