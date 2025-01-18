@@ -3,13 +3,16 @@ import { View, StyleSheet, FlatList, Text, Pressable } from "react-native";
 import { Todo } from "@/types/types";
 import TodoItemView from "./TodoItem";
 import { FontAwesome } from "@expo/vector-icons";
+import { useState } from "react";
 
 type Props = {
     data: Todo[]
     createTodo: () => void;
+    updateTodo: (name: string, value: string | boolean) => void;
 }
 
-export default function TodoListView({data, createTodo}: Props) {
+export default function TodoListView({data, createTodo, updateTodo}: Props) {
+    
 
     return (
         <View style={styles.container}>
@@ -28,7 +31,7 @@ export default function TodoListView({data, createTodo}: Props) {
                     data={data}
                     contentContainerStyle={styles.listContainer}
                     renderItem={({item}) => (
-                        <TodoItemView data={item}/>
+                        <TodoItemView data={item} updateTodo={updateTodo}/>
                     )}
                 />
                 )}
