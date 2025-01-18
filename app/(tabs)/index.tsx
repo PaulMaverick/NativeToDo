@@ -10,14 +10,14 @@ import ToolBarView from "@/component/ToolBar";
 
 //themes - defaults
 import { gblDefaults } from "@/constants/globas";
-import { Todo } from "@/types/types";
-import TodoListView from "@/component/TodoLIst";
+import { TodoGroup } from "@/types/types";
+import TodoGroupListView from "@/component/todogroup/TodoGroupList";
 const currentTheme = gblDefaults.darkTheme;
 
 
 export default function Index() {
 
-  const [data, setData] = useState<Todo[]>([])
+  const [data, setData] = useState<TodoGroup[]>([])
   const {height, width} = useWindowDimensions();
 
   return (
@@ -38,7 +38,7 @@ export default function Index() {
 					<ToolBarView />
 				</View>
 				<View>
-					<TodoListView data={data}/>
+					<TodoGroupListView data={data}/>
 				</View>
 			</View>
         <FooterView currentTheme={currentTheme}/>

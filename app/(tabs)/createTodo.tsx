@@ -1,52 +1,85 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import { Dispatch, SetStateAction, useState } from "react";
 import { FontAwesome } from '@expo/vector-icons';
-import { Todo } from "@/types/types";
+import { TodoGroup, Todo } from "@/types/types";
+import { setID } from "@/utils/utils";
+import TodoListView from "@/component/todos/TodoList";
 
 export default function CreateTodoScreen() {
     const todoItem = {
+        id: setID(),
         title: '',
         description: '',
+        todos: [],
+        reminder: false,
     }
 
-    const [todo, setTodo] = useState<Todo>(todoItem)
+    const [todoGroup, setTodoGroup] = useState<TodoGroup>(todoItem)
+    const [todos, setTodos] = useState<Todo[]>([])
 
-    const updateTodo = (name: string, value: string) => {
+    const updateGroupTodo = (name: string, value: string) => {
+       setTodoGroup(prev => ({
+        ...prev,
+        [name]: value,
+       }))
+    }
+
+    const createGroupTodo = () => {
        
     }
 
     const createTodo = () => {
-       
+        const newTodo = {
+            id: setID(),
+            todo: '',
+            isDone: false,
+        }
+
+        const newData = [...todos];
+
+        newData.push(newTodo);
+
+        setTodos(newData);
+    }
+
+    const updateTodo = () => {
+
+    }
+
+    const deleteTodo = () => {
+
     }
 
     return (
         <View style={styles.container}>
-            <View >
-                <View>
-                    <Text >Title:</Text>
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldText}>Title:</Text>
                     <TextInput 
                         placeholder="Title" 
+                        style={styles.inputText}
                         placeholderTextColor="white"
-                        value={todo.title}
-                        onChange={(e) =>  updateTodo("title", e.nativeEvent.text)}/>
+                        value={todoGroup.title}
+                        onChange={(e) =>  updateGroupTodo("title", e.nativeEvent.text)}/>
                 </View>
-                <View>
-                    <Text >Description:</Text>
+                <View style={styles.fieldContainer}>
+                    <Text style={styles.fieldText}>Description:</Text>
                     <TextInput 
                         placeholder="description" 
+                        style={styles.inputText}
                         placeholderTextColor="white"
                         multiline
-                        value={todo.description}
-                        onChange={(e) =>  updateTodo("description", e.nativeEvent.text)}
+                        value={todoGroup.description}
+                        onChange={(e) =>  updateGroupTodo("description", e.nativeEvent.text)}
                     />
                 </View>
+
+                <TodoListView data={todos} createTodo={createTodo} />
 
                 <View >
                     <Pressable onPress={() => createTodo()}>
                         <Text >Create Todo</Text>
                     </Pressable>
                 </View>
-            </View>
         </View>
     )
 }
@@ -54,28 +87,21 @@ export default function CreateTodoScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#292929'
-    },
-    formContainer: {
-        width: '90%',
         backgroundColor: '#292929',
-        borderColor: '#4f4d4d',
-        borderWidth: 2,
-        borderRadius: 15
+        padding: 15,
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottomColor: '#4f4d4d',
-        borderBottomWidth: 2,
-        padding: 10,
+    fieldContainer: {
+        gap: 10,
+        marginBottom: 15,
     },
-    text: {
+    fieldText: {
         color: 'white',
+        fontSize: 15,
     },
-    btnContainer: {
-        justifyContent: 'center',
+    inputText: {
+        borderRadius: 10,
+        backgroundColor: '#4f4d4d',
         alignItems: 'center',
+        padding: 15,     
     }
 })
