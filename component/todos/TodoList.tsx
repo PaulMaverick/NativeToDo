@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList, Text, Pressable } from "react-native";
+import { View, StyleSheet, FlatList, Text, Pressable, ScrollView } from "react-native";
 
 import { Todo } from "@/types/types";
 import TodoItemView from "./TodoItem";
@@ -8,10 +8,11 @@ import { useState } from "react";
 type Props = {
     data: Todo[]
     createTodo: () => void;
-    updateTodo: (name: string, value: string | boolean) => void;
+    updateTodo: (id: number, name: string, value: string | boolean) => void;
+    deleteTodo: (id: number) => void;
 }
 
-export default function TodoListView({data, createTodo, updateTodo}: Props) {
+export default function TodoListView({data, createTodo, updateTodo, deleteTodo}: Props) {
     
 
     return (
@@ -20,21 +21,21 @@ export default function TodoListView({data, createTodo, updateTodo}: Props) {
                 <Text style={styles.headerText}>To Dos:</Text>
             </View>
             <View style={styles.todosContainer}>
-                {data.length === 0 ? (
-                    <Pressable onPress={createTodo} style={styles.emptyCard}>
-                        <FontAwesome name="plus" color="white" size={15}/>
-                        <Text style={styles.emptyCardText}>Create A new Todo</Text>
-                    </Pressable>
-                ) : (
-                    <FlatList
+                <FlatList
                     showsVerticalScrollIndicator={true}
                     data={data}
                     contentContainerStyle={styles.listContainer}
                     renderItem={({item}) => (
-                        <TodoItemView data={item} updateTodo={updateTodo}/>
+                        <TodoItemView data={item} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
                     )}
+
+                    ListFooterComponent={ 
+                    <Pressable onPress={createTodo} style={styles.emptyCard}>
+                        <FontAwesome name="plus" color="white" size={15}/>
+                        <Text style={styles.emptyCardText}>Create A new Todo</Text>
+                    </Pressable>
+                    }
                 />
-                )}
             </View>
         </View>
     )
@@ -48,6 +49,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#1a1919',
         borderWidth: 2,
         borderColor: '#4f4d4d',
+        overflow: 'hidden',
     },
     header: {
         padding: 5,
@@ -61,10 +63,11 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     todosContainer: {
-        padding: 10
+        padding: 10,
+        overflow: 'hidden',
     },
     emptyCard: {
-        height: 45,
+        height: 60,
         width: '100%',
         flexDirection: 'row',
         backgroundColor: '#292929',
@@ -79,7 +82,9 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     listContainer: {
-
+        overflow: 'hidden',
+        gap: 7,
+        paddingBottom: 30,
     }
 
 })

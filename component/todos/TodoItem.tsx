@@ -9,13 +9,14 @@ import { useState } from "react";
 
 type Props = {
     data: Todo,
-    updateTodo: (name: string, value: string | boolean) => void;
+    updateTodo: (id: number, name: string, value: string | boolean) => void;
+    deleteTodo: (id: number) => void;
 }
 
-export default function TodoItemView({data, updateTodo}: Props) {
+export default function TodoItemView({data, updateTodo, deleteTodo}: Props) {
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const [show, setShow] = useState<boolean>(false); 
-    const [height, setHeight] = useState<number>(0)
+    const [height, setHeight] = useState<number>(0);
 
     const infoStyle = useAnimatedStyle(() => {
         const animatedHeight = show ? withTiming(height) : withTiming(0);
@@ -45,19 +46,27 @@ export default function TodoItemView({data, updateTodo}: Props) {
                     <TextInput
                         style={styles.todoInput}
                         placeholder="todo...."
+                        value={data.todo}
                         placeholderTextColor="gray"
+                        onChange={(e) => updateTodo(data.id, "todo", e.nativeEvent.text)}
                     />
                 ): (
                     <View style={styles.textInnerContainer}>
-                        <Text style={styles.text}>this is text</Text>
+                        <Text style={styles.text}>{data.todo ? data.todo : 'todo...'}</Text>
                     </View>
 
                 )}
             </View>
             <View style={[styles.iconContainer, setPadding(0, 10)]}>
-                <Pressable onPress={() => setIsEditing(!isEditing)}>
-                    <FontAwesome name="edit" size={20} color="white" />
-                </Pressable>
+                {isEditing ? (
+                    <Pressable onPress={() => setIsEditing(!isEditing)}>
+                        <FontAwesome name="check" size={20} color="white" />
+                    </Pressable>
+                ): (
+                    <Pressable onPress={() => setIsEditing(!isEditing)}>
+                        <FontAwesome name="edit" size={20} color="white" />
+                    </Pressable>
+                )}
                 <Pressable onPress={onShow}>
                     <FontAwesome name="expand" size={20} color="white" />
                 </Pressable>
@@ -73,13 +82,13 @@ export default function TodoItemView({data, updateTodo}: Props) {
                         checked={data.isDone}
                         title="Mark done."
                         textColor='white'
-                        onChange={(value) => updateTodo("isDone", value)}
+                        onChange={(value) => updateTodo(data.id, "isDone", value)}
                     />
                 </View>
-                <View style={styles.deleteContainer}>
+                <Pressable onPress={() => deleteTodo(data.id)} style={styles.deleteContainer}>
                     <FontAwesome name="trash-o" size={20} color="white" />
                     <Text style={styles.deleteText}>Delete To do?</Text>
-                </View>
+                </Pressable>
             </View>
         </Animated.View>
     </View>
@@ -120,6 +129,7 @@ const styles = StyleSheet.create({
         flex: 1,
         borderBottomColor: "#4f4d4d",
         borderBottomWidth: 2,
+        color: 'white',
     },
     iconContainer: {
         flexDirection: 'row',

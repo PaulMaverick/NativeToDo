@@ -14,11 +14,7 @@ export default function CreateTodoScreen() {
     }
 
     const [todoGroup, setTodoGroup] = useState<TodoGroup>(todoItem)
-    const [todos, setTodos] = useState<Todo[]>([{
-        id: setID(),
-        todo: '',
-        isDone: false,
-    }])
+    const [todos, setTodos] = useState<Todo[]>([])
 
     const updateGroupTodo = (name: string, value: string) => {
        setTodoGroup(prev => ({
@@ -45,12 +41,27 @@ export default function CreateTodoScreen() {
         setTodos(newData);
     }
 
-    const updateTodo = (name: string, value: string | boolean) => {
-
+    const updateTodo = (id: number, name: string, value: string | boolean) => {
+        const copiedData = [...todos];
+       
+        const newData = copiedData.map(item => {
+            if(item.id === id) {
+                return {
+                    ...item,
+                    [name]: value
+                }
+            } 
+            return item
+        })
+        setTodos(newData)
     }
 
-    const deleteTodo = () => {
+    const deleteTodo = (id: number) => {
+        const copiedData = [...todos];
+        console.log('id:', id)
+        const filtered = copiedData.filter(item => item.id !== id);
 
+        setTodos(filtered);
     }
 
     return (
@@ -76,7 +87,7 @@ export default function CreateTodoScreen() {
                 />
             </View>
 
-                <TodoListView data={todos} createTodo={createTodo} updateTodo={updateTodo}/>
+                <TodoListView data={todos} createTodo={createTodo} updateTodo={updateTodo} deleteTodo={deleteTodo}/>
 
                 <View >
                     <Pressable onPress={() => createTodo()}>
