@@ -18,13 +18,15 @@ const initialState: TodoState = {
     createSuccess: false
 }
 
-const todoSlice = createSlice({
-    name: 'todo',
+const todoGroupSlice = createSlice({
+    name: 'todoGroup',
     initialState: initialState,
     reducers: {
-        
+        onCreateTodoGroup(state, action: PayloadAction<TodoGroup>) {
+            state.todoGroup = action.payload
+        }
     }
 })
 
-// export const {onCreateTodo} = todoSlice.actions;
-export default todoSlice.reducer;
+export const {onCreateTodoGroup} = todoGroupSlice.actions;
+export default todoGroupSlice.reducer;
